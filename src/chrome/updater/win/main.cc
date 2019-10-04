@@ -7,5 +7,9 @@
 #include "chrome/updater/updater.h"
 
 int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE prev, wchar_t*, int) {
-  return updater::UpdaterMain(0, nullptr);
+
+  // Commented out for updater and sending crash report to google
+  // return updater::UpdaterMain(0, nullptr);
+
+  return -1;
 }

@@ -5,5 +5,9 @@
 #include "chrome/updater/updater.h"
 
 int main(int argc, const char* argv[]) {
-  return updater::UpdaterMain(argc, argv);
+  
+  // Commented out for updater and sending crash report to google
+  // return updater::UpdaterMain(argc, argv);
+
+  return -1;
 }
