@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tests the values that the Badge API doesn't support.</title>
+<script src="../resources/testharness.js"></script>
+<script src="../resources/testharnessreport.js"></script>
+<script src="file:///gen/layout_test_data/mojo/public/js/mojo_bindings.js"></script>
+<script src="file:///gen/third_party/blink/public/mojom/badging/badging.mojom.js"></script>
+<script src="resources/mock-badge-service.js"></script>
+</head>
+<body>
+<script>
+
+// Negative value not allowed.
+badge_test(() => { ExperimentalBadge.set(-1); }, undefined, undefined,
+           'TypeError');
+
+// Value too large (2^53).
+badge_test(() => { ExperimentalBadge.set(9007199254740992); }, undefined,
+           undefined, 'TypeError');
+
+// Illegal numeric values.
+badge_test(() => { ExperimentalBadge.set(Infinity); }, undefined, undefined,
+           'TypeError');
+badge_test(() => { ExperimentalBadge.set(-Infinity); }, undefined, undefined,
+           'TypeError');
+badge_test(() => { ExperimentalBadge.set(NaN); }, undefined, undefined,
+           'TypeError');
+
+// Other values that can't convert to a long.
+badge_test(() => { ExperimentalBadge.set("Foo"); }, undefined, undefined,
+           'TypeError');
+badge_test(() => { ExperimentalBadge.set({}); }, undefined, undefined,
+           'TypeError');
+
+// Wrong origin.
+badge_test(() => {
+  ExperimentalBadge.set(1, {scope: 'https://wrongorigin.com/scope'});
+}, undefined, undefined, 'SecurityError');
+
+// Invalid URL.
+badge_test(() => {
+  ExperimentalBadge.set(1, {scope: 'https://example.com:99999'});
+}, undefined, undefined, 'TypeError');
+
+</script>
+</body>
+</html>

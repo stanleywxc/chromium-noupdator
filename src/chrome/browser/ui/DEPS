@@ -1,0 +1,7 @@
+include_rules = [
+  "-chrome/browser/ui/views",
+  "+components/page_load_metrics/browser",
+  "+mash/public/mojom",
+  "+services/content/public",
+  "+services/device/public/mojom",
+]

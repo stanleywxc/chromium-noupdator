@@ -1,0 +1,185 @@
+<style>
+  :host {
+    --tabstrip-tab-height: 230px;
+    --tabstrip-tab-width: 280px;
+    --tabstrip-tab-title-height: 40px;
+
+    cursor: pointer;
+    height: var(--tabstrip-tab-height);
+    position: relative;
+    width: var(--tabstrip-tab-width);
+  }
+
+  :host([active]) #dragImage {
+    box-shadow: 0 0 0 2px var(--tabstrip-focus-color);
+    outline: none;
+  }
+
+  #dragImage {
+    border-radius: var(--tabstrip-card-border-radius);
+    box-shadow: var(--tabstrip-elevation-box-shadow);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  #title {
+    align-items: center;
+    background: var(--tabstrip-card-background-color);
+    border-block-end: 1px solid var(--tabstrip-separator-color);
+    box-sizing: border-box;
+    display: flex;
+    height: var(--tabstrip-tab-title-height);
+    justify-content: center;
+    margin: 0;
+    padding-inline-end: 4px;
+    padding-inline-start: 12px;
+  }
+
+  #faviconContainer {
+    flex-shrink: 0;
+    height: 16px;
+    margin-inline-end: 8px;
+    position: relative;
+    width: 16px;
+  }
+
+  #loading,
+  #favicon {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+
+  #loading {
+    -webkit-mask-image: url(chrome://resources/images/throbber_small.svg);
+    background-color: var(--tabstrip-primary-text-color);
+    display: none;
+  }
+
+  #favicon {
+    background-size: contain;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: border-radius 250ms;
+  }
+
+  :host([loading]) #loading,
+  :host([loading]) #favicon {
+    display: block;
+  }
+
+  :host([loading]) #favicon {
+    border-radius: 50%;
+    height: calc(100% - 6px);
+    overflow: hidden;
+    width: calc(100% - 6px);
+  }
+
+  #titleText {
+    font-size: 100%;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #close {
+    -webkit-appearance: none;
+    align-items: center;
+    background-color: transparent;
+    border: 0;
+    display: flex;
+    flex-shrink: 0;
+    height: 32px;
+    justify-content: center;
+    margin-inline-start: auto;
+    padding: 0;
+    position: relative;
+    width: 32px;
+  }
+
+  #closeIcon {
+    background:
+        url(chrome://resources/images/icon_clear.svg) center/contain no-repeat;
+    display: block;
+    height: 24px;
+    position: relative;
+    width: 24px;
+  }
+
+  #thumbnail {
+    align-items: center;
+    background: var(--tabstrip-card-background-color);
+    display: flex;
+    flex: 1;
+    justify-content: center;
+  }
+
+  #thumbnailImg {
+    height: calc(var(--tabstrip-tab-height) - var(--tabstrip-tab-title-height));
+    object-fit: contain;
+    pointer-events: none;
+    width: var(--tabstrip-tab-width);
+  }
+
+  #thumbnailImg:not([src]) {
+    display: none;
+    pointer-events: none;
+    width: 100%;
+  }
+
+  /* Pinned tab styles */
+  :host([pinned]) {
+    height: 50px;
+    width: 50px;
+  }
+
+  :host([pinned]) #title {
+    border-block-end: 0;
+    height: 100%;
+  }
+
+  :host([pinned]) #titleText,
+  :host([pinned]) #close,
+  :host([pinned]) #thumbnail {
+    display: none;
+  }
+
+  :host([dragging]) #dragPlaceholder {
+    background: rgba(var(--google-grey-200-rgb));
+    border-radius: var(--tabstrip-card-border-radius);
+    height: 100%;
+    width: 100%;
+  }
+
+  /* When being dragged, the contents of the drag image needs to be off-screen
+   * with nothing else on top or below obscuring it. */
+  :host([dragging]) #dragImage {
+    box-shadow: none;
+    position: absolute;
+    top: -999px;
+  }
+</style>
+
+<div id="dragPlaceholder"></div>
+
+<div id="dragImage">
+  <header id="title">
+    <div id="faviconContainer">
+      <div id="loading"></div>
+      <div id="favicon"></div>
+    </div>
+    <h2 id="titleText"></h2>
+    <button id="close">
+      <span id="closeIcon"></span>
+    </button>
+  </header>
+
+  <div id="thumbnail">
+    <img id="thumbnailImg">
+  </div>
+</div>

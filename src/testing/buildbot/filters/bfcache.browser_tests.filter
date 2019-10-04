@@ -1,0 +1,17 @@
+# These tests currently fail when run with --enable-features=BackForwardCache
+
+# No focused view.
+-PaymentRequestShippingAddressEditorTest.FocusFirstInvalidField_NotName
+
+# Test are using a custom NavigateToURL function waiting for the old
+# RenderFrameHost to be deleted. This won't happen.
+-ProcessManagementTest.ExtensionProcessBalancing
+-ProcessManagerBrowserTest.NoBackgroundPage
+
+# Test goes back and forth in between a "preview" page and a "normal" page.
+# When going back to the first page, it expected to be loaded as a "normal" page,
+# but it isn't reloaded at all with the BackForwardCache.
+-PreviewsLitePageServerBrowserTest.LitePagePreviewsNavigation/*
+
+# Very flaky. Can't reproduce locally, it always succeed.
+-SystemNetworkContextManagerMaxConnectionsPerProxyBrowsertest.MaxConnectionsPerProxy

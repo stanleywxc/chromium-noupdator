@@ -1,0 +1,7 @@
+noparent = True
+
+include_rules = [
+  "+base",
+  "+chrome/test/android",
+  "+ui/android",
+]

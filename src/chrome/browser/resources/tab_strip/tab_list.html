@@ -1,0 +1,31 @@
+<style>
+  :host {
+    display: flex;
+    padding: 16px;
+    width: fit-content;
+  }
+
+  #pinnedTabsContainer {
+    display: grid;
+    grid-auto-columns: 50px;
+    grid-auto-flow: column;
+    grid-gap: 10px;
+    grid-template-rows: repeat(4, 50px);
+    margin-inline-end: 16px;
+  }
+
+  #pinnedTabsContainer:empty {
+    display: none;
+  }
+
+  #tabsContainer {
+    display: flex;
+  }
+
+  #tabsContainer tabstrip-tab:not(:last-child) {
+    margin-inline-end: 16px;
+  }
+</style>
+
+<div id="pinnedTabsContainer"></div>
+<div id="tabsContainer"></div>

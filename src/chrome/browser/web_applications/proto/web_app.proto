@@ -1,0 +1,46 @@
+// Copyright 2018 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+syntax = "proto2";
+
+import "web_app_specifics.proto";
+
+option optimize_for = LITE_RUNTIME;
+
+package web_app;
+
+// Local data: Information about web app icon.
+message WebAppIconInfoProto {
+  // The URL of the app icon.
+  required string url = 1;
+  // The size of the square app icon, in raw pixels.
+  required int32 size_in_px = 2;
+}
+
+// A set to track simultaneous installs and uninstalls from multiple install
+// sources.
+message SourcesProto {
+  required bool system = 1;
+  required bool policy = 2;
+  required bool web_app_store = 3;
+  required bool sync = 4;
+  required bool default = 5;
+}
+
+// Full WebApp object data. Note on database identities:
+// app_id is a hash of launch_url. app_id is the client tag for sync system.
+// app_id is the storage key in ModelTypeStore.
+message WebAppProto {
+  // Synced data.
+  required sync_pb.WebAppSpecifics specifics = 1;
+
+  // Local data. Not to be synced.
+  //
+  optional string description = 2;
+  optional string scope = 3;
+  required SourcesProto sources = 4;
+  required bool is_locally_installed = 5;
+  // A list of icon infos.
+  repeated WebAppIconInfoProto icons = 6;
+}
